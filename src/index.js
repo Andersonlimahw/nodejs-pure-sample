@@ -1,10 +1,21 @@
 const http = require('http');
+const routes = require('./routes');
+
 
 const server = http.createServer((request, response) => {
-  response.writeHead(200, {
-    'Content-Type': 'text/html'
-  });
-  response.end('<h1>Hellow world! </h1>');
+ 
+  const route = routes.find((route) => (
+    route.endpoint === request.url && route.method === request.method
+  ));
+  
+  if(route) {   
+    route.handler(request, response);
+  } else {
+    response.writeHead(404, {
+      'Content-Type': 'text/html'
+    });
+    response.end(`<h1>Not found</h1>  Method -> ${request.method} URL -> ${request.url}`);
+  }
 });
 
 
