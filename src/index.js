@@ -1,20 +1,37 @@
 const http = require('http');
 const routes = require('./routes');
-
+const { URL } = require('url');
 
 const server = http.createServer((request, response) => {
- 
+  const parsedUrl = new URL(`http://localhost:3000${request.url}`);
+  console.log(`Init : method ${request.method} , url: ${request.url}`);
+
+  // extract path params
+  let { pathname } = parsedUrl;
+  let id = null;
+  const splitedEndpoint = pathname.split('/').filter(Boolean);
+  if(splitedEndpoint.length > 1) {
+    pathname = `/${splitedEndpoint[0]}/:id`;
+    id = splitedEndpoint[1];
+  }
+
   const route = routes.find((route) => (
-    route.endpoint === request.url && route.method === request.method
+    route.endpoint === pathname && route.method === request.method
   ));
   
   if(route) {   
+    request.query = Object.fromEntries(parsedUrl.searchParams);
+    request.params = { id };
     route.handler(request, response);
   } else {
     response.writeHead(404, {
-      'Content-Type': 'text/html'
+      'Content-Type': 'application/json'
     });
-    response.end(`<h1>Not found</h1>  Method -> ${request.method} URL -> ${request.url}`);
+    response.end(JSON.stringify({
+      url: request.url,
+      method: request.method,
+      message: "resource not found."
+    }));
   }
 });
 
