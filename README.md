@@ -37,7 +37,7 @@ N/A
 👤 **anderson.lima.dev**
 
 * Website: instagram.com/anderson.lima.dev
-* Twitter: [@anderson.lima.dev](https://twitter.com/anderson.lima.dev)
+* Twitter: [@anderson.lima.dev](https://twitter.com/andersonhw)
 * Github: [@andersonlimahw](https://github.com/andersonlimahw)
 * LinkedIn: [@anderson.lima.dev](https://linkedin.com/in/anderson.lima.dev)
 
