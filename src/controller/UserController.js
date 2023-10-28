@@ -24,5 +24,16 @@ module.exports = {
       });
     }
     response.send(200, user);   
+  },
+
+  create(request, response) {
+    const { body } = request;
+    const lastUserId = users[users.length -1]?.id;
+    const newUser = {
+      id: lastUserId + 1,
+      name: body.name
+    }
+    users.push(newUser);
+    response.send(200, newUser);  
   }
 }
